@@ -1,5 +1,6 @@
 # Our handy .gitignore for automation ease
+.vscode/*
+
 Doxyfile*
 doxygen_sqlite3.db
 html
-.vscode/
