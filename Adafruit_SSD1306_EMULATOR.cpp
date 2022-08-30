@@ -169,12 +169,12 @@
     @note   Call the object's begin() function before use -- buffer
             allocation is performed there!
 */
-Adafruit_SSD1306::Adafruit_SSD1306(uint8_t w,
-                                   uint8_t h,
-                                   TwoWire* twi,
-                                   int8_t rst_pin,
-                                   uint32_t clkDuring,
-                                   uint32_t clkAfter)
+Adafruit_SSD1306_EMULATOR::Adafruit_SSD1306_EMULATOR(uint8_t w,
+                                                     uint8_t h,
+                                                     TwoWire* twi,
+                                                     int8_t rst_pin,
+                                                     uint32_t clkDuring,
+                                                     uint32_t clkAfter)
     : Adafruit_GFX(w, h),
       spi(NULL),
       wire(twi ? twi : &Wire),
@@ -219,13 +219,13 @@ Adafruit_SSD1306::Adafruit_SSD1306(uint8_t w,
     @note   Call the object's begin() function before use -- buffer
             allocation is performed there!
 */
-Adafruit_SSD1306::Adafruit_SSD1306(uint8_t w,
-                                   uint8_t h,
-                                   int8_t mosi_pin,
-                                   int8_t sclk_pin,
-                                   int8_t dc_pin,
-                                   int8_t rst_pin,
-                                   int8_t cs_pin)
+Adafruit_SSD1306_EMULATOR::Adafruit_SSD1306_EMULATOR(uint8_t w,
+                                                     uint8_t h,
+                                                     int8_t mosi_pin,
+                                                     int8_t sclk_pin,
+                                                     int8_t dc_pin,
+                                                     int8_t rst_pin,
+                                                     int8_t cs_pin)
     : Adafruit_GFX(w, h),
       spi(NULL),
       wire(NULL),
@@ -262,13 +262,13 @@ Adafruit_SSD1306::Adafruit_SSD1306(uint8_t w,
     @note   Call the object's begin() function before use -- buffer
             allocation is performed there!
 */
-Adafruit_SSD1306::Adafruit_SSD1306(uint8_t w,
-                                   uint8_t h,
-                                   SPIClass* spi_ptr,
-                                   int8_t dc_pin,
-                                   int8_t rst_pin,
-                                   int8_t cs_pin,
-                                   uint32_t bitrate)
+Adafruit_SSD1306_EMULATOR::Adafruit_SSD1306_EMULATOR(uint8_t w,
+                                                     uint8_t h,
+                                                     SPIClass* spi_ptr,
+                                                     int8_t dc_pin,
+                                                     int8_t rst_pin,
+                                                     int8_t cs_pin,
+                                                     uint32_t bitrate)
     : Adafruit_GFX(w, h),
       spi(spi_ptr ? spi_ptr : &SPI),
       wire(NULL),
@@ -309,11 +309,11 @@ Adafruit_SSD1306::Adafruit_SSD1306(uint8_t w,
     @note   Call the object's begin() function before use -- buffer
             allocation is performed there!
 */
-Adafruit_SSD1306::Adafruit_SSD1306(int8_t mosi_pin,
-                                   int8_t sclk_pin,
-                                   int8_t dc_pin,
-                                   int8_t rst_pin,
-                                   int8_t cs_pin)
+Adafruit_SSD1306_EMULATOR::Adafruit_SSD1306_EMULATOR(int8_t mosi_pin,
+                                                     int8_t sclk_pin,
+                                                     int8_t dc_pin,
+                                                     int8_t rst_pin,
+                                                     int8_t cs_pin)
     : Adafruit_GFX(SSD1306_LCDWIDTH, SSD1306_LCDHEIGHT),
       spi(NULL),
       wire(NULL),
@@ -345,7 +345,9 @@ Adafruit_SSD1306::Adafruit_SSD1306(int8_t mosi_pin,
     @note   Call the object's begin() function before use -- buffer
             allocation is performed there!
 */
-Adafruit_SSD1306::Adafruit_SSD1306(int8_t dc_pin, int8_t rst_pin, int8_t cs_pin)
+Adafruit_SSD1306_EMULATOR::Adafruit_SSD1306_EMULATOR(int8_t dc_pin,
+                                                     int8_t rst_pin,
+                                                     int8_t cs_pin)
     : Adafruit_GFX(SSD1306_LCDWIDTH, SSD1306_LCDHEIGHT),
       spi(&SPI),
       wire(NULL),
@@ -374,7 +376,7 @@ Adafruit_SSD1306::Adafruit_SSD1306(int8_t dc_pin, int8_t rst_pin, int8_t cs_pin)
     @note   Call the object's begin() function before use -- buffer
             allocation is performed there!
 */
-Adafruit_SSD1306::Adafruit_SSD1306(int8_t rst_pin)
+Adafruit_SSD1306_EMULATOR::Adafruit_SSD1306_EMULATOR(int8_t rst_pin)
     : Adafruit_GFX(SSD1306_LCDWIDTH, SSD1306_LCDHEIGHT),
       spi(NULL),
       wire(&Wire),
@@ -388,7 +390,7 @@ Adafruit_SSD1306::Adafruit_SSD1306(int8_t rst_pin)
 /*!
     @brief  Destructor for Adafruit_SSD1306 object.
 */
-Adafruit_SSD1306::~Adafruit_SSD1306(void) {
+Adafruit_SSD1306_EMULATOR::~Adafruit_SSD1306_EMULATOR(void) {
   if (buffer) {
     free(buffer);
     buffer = NULL;
@@ -409,7 +411,7 @@ Adafruit_SSD1306::~Adafruit_SSD1306(void) {
     @note   See HAVE_PORTREG which defines if the method uses a port or
    bit-bang method
 */
-inline void Adafruit_SSD1306::SPIwrite(uint8_t d) {
+inline void Adafruit_SSD1306_EMULATOR::SPIwrite(uint8_t d) {
   if (spi) {
     (void)spi->transfer(d);
   } else {
@@ -430,11 +432,11 @@ inline void Adafruit_SSD1306::SPIwrite(uint8_t d) {
   }
 }
 
-void Adafruit_SSD1306::delimitSlipPacket() {
+void Adafruit_SSD1306_EMULATOR::delimitSlipPacket() {
   Serial.write(SLIP_END);
 }
 
-void Adafruit_SSD1306::encodeAndWriteSlip(uint8_t data) {
+void Adafruit_SSD1306_EMULATOR::encodeAndWriteSlip(uint8_t data) {
   switch (data) {
     case SLIP_END:
       Serial.write(SLIP_ESC);
@@ -461,7 +463,7 @@ void Adafruit_SSD1306::encodeAndWriteSlip(uint8_t data) {
     @return None (void).
     @note
 */
-void Adafruit_SSD1306::ssd1306_command1(uint8_t c) {
+void Adafruit_SSD1306_EMULATOR::ssd1306_command1(uint8_t c) {
   if (wire) {  // I2C
     wire->beginTransmission(i2caddr);
     delimitSlipPacket();
@@ -492,7 +494,8 @@ void Adafruit_SSD1306::ssd1306_command1(uint8_t c) {
     @return None (void).
     @note
 */
-void Adafruit_SSD1306::ssd1306_commandList(const uint8_t* c, uint8_t n) {
+void Adafruit_SSD1306_EMULATOR::ssd1306_commandList(const uint8_t* c,
+                                                    uint8_t n) {
   if (wire) {  // I2C
     wire->beginTransmission(i2caddr);
     delimitSlipPacket();
@@ -540,7 +543,7 @@ void Adafruit_SSD1306::ssd1306_commandList(const uint8_t* c, uint8_t n) {
             Command to issue (0x00 to 0xFF, see datasheet).
     @return None (void).
 */
-void Adafruit_SSD1306::ssd1306_command(uint8_t c) {
+void Adafruit_SSD1306_EMULATOR::ssd1306_command(uint8_t c) {
   TRANSACTION_START
   ssd1306_command1(c);
   TRANSACTION_END
@@ -583,10 +586,10 @@ void Adafruit_SSD1306::ssd1306_command(uint8_t c) {
             proceeding.
     @note   MUST call this function before any drawing or updates!
 */
-bool Adafruit_SSD1306::begin(uint8_t vcs,
-                             uint8_t addr,
-                             bool reset,
-                             bool periphBegin) {
+bool Adafruit_SSD1306_EMULATOR::begin(uint8_t vcs,
+                                      uint8_t addr,
+                                      bool reset,
+                                      bool periphBegin) {
   if ((!buffer) && !(buffer = (uint8_t*)malloc(WIDTH * ((HEIGHT + 7) / 8))))
     return false;
 
@@ -734,7 +737,9 @@ bool Adafruit_SSD1306::begin(uint8_t vcs,
             Follow up with a call to display(), or with other graphics
             commands as needed by one's own application.
 */
-void Adafruit_SSD1306::drawPixel(int16_t x, int16_t y, uint16_t color) {
+void Adafruit_SSD1306_EMULATOR::drawPixel(int16_t x,
+                                          int16_t y,
+                                          uint16_t color) {
   if ((x >= 0) && (x < width()) && (y >= 0) && (y < height())) {
     // Pixel is in-bounds. Rotate coordinates if needed.
     switch (getRotation()) {
@@ -772,7 +777,7 @@ void Adafruit_SSD1306::drawPixel(int16_t x, int16_t y, uint16_t color) {
             Follow up with a call to display(), or with other graphics
             commands as needed by one's own application.
 */
-void Adafruit_SSD1306::clearDisplay(void) {
+void Adafruit_SSD1306_EMULATOR::clearDisplay(void) {
   memset(buffer, 0, WIDTH * ((HEIGHT + 7) / 8));
 }
 
@@ -793,10 +798,10 @@ void Adafruit_SSD1306::clearDisplay(void) {
             Follow up with a call to display(), or with other graphics
             commands as needed by one's own application.
 */
-void Adafruit_SSD1306::drawFastHLine(int16_t x,
-                                     int16_t y,
-                                     int16_t w,
-                                     uint16_t color) {
+void Adafruit_SSD1306_EMULATOR::drawFastHLine(int16_t x,
+                                              int16_t y,
+                                              int16_t w,
+                                              uint16_t color) {
   bool bSwap = false;
   switch (rotation) {
     case 1:
@@ -844,10 +849,10 @@ void Adafruit_SSD1306::drawFastHLine(int16_t x,
             Follow up with a call to display(), or with other graphics
             commands as needed by one's own application.
 */
-void Adafruit_SSD1306::drawFastHLineInternal(int16_t x,
-                                             int16_t y,
-                                             int16_t w,
-                                             uint16_t color) {
+void Adafruit_SSD1306_EMULATOR::drawFastHLineInternal(int16_t x,
+                                                      int16_t y,
+                                                      int16_t w,
+                                                      uint16_t color) {
   if ((y >= 0) && (y < HEIGHT)) {  // Y coord in bounds?
     if (x < 0) {                   // Clip left
       w += x;
@@ -897,10 +902,10 @@ void Adafruit_SSD1306::drawFastHLineInternal(int16_t x,
             Follow up with a call to display(), or with other graphics
             commands as needed by one's own application.
 */
-void Adafruit_SSD1306::drawFastVLine(int16_t x,
-                                     int16_t y,
-                                     int16_t h,
-                                     uint16_t color) {
+void Adafruit_SSD1306_EMULATOR::drawFastVLine(int16_t x,
+                                              int16_t y,
+                                              int16_t h,
+                                              uint16_t color) {
   bool bSwap = false;
   switch (rotation) {
     case 1:
@@ -947,10 +952,10 @@ void Adafruit_SSD1306::drawFastVLine(int16_t x,
             Follow up with a call to display(), or with other graphics
             commands as needed by one's own application.
 */
-void Adafruit_SSD1306::drawFastVLineInternal(int16_t x,
-                                             int16_t __y,
-                                             int16_t __h,
-                                             uint16_t color) {
+void Adafruit_SSD1306_EMULATOR::drawFastVLineInternal(int16_t x,
+                                                      int16_t __y,
+                                                      int16_t __h,
+                                                      uint16_t color) {
   if ((x >= 0) && (x < WIDTH)) {  // X coord in bounds?
     if (__y < 0) {                // Clip top
       __h += __y;
@@ -1058,7 +1063,7 @@ void Adafruit_SSD1306::drawFastVLineInternal(int16_t x,
     @note   Reads from buffer contents; may not reflect current contents of
             screen if display() has not been called.
 */
-bool Adafruit_SSD1306::getPixel(int16_t x, int16_t y) {
+bool Adafruit_SSD1306_EMULATOR::getPixel(int16_t x, int16_t y) {
   if ((x >= 0) && (x < width()) && (y >= 0) && (y < height())) {
     // Pixel is in-bounds. Rotate coordinates if needed.
     switch (getRotation()) {
@@ -1085,7 +1090,7 @@ bool Adafruit_SSD1306::getPixel(int16_t x, int16_t y) {
     @return Pointer to an unsigned 8-bit array, column-major, columns padded
             to full byte boundary if needed.
 */
-uint8_t* Adafruit_SSD1306::getBuffer(void) {
+uint8_t* Adafruit_SSD1306_EMULATOR::getBuffer(void) {
   return buffer;
 }
 
@@ -1098,7 +1103,7 @@ uint8_t* Adafruit_SSD1306::getBuffer(void) {
             called. Call after each graphics command, or after a whole set
             of graphics commands, as best needed by one's own application.
 */
-void Adafruit_SSD1306::display(void) {
+void Adafruit_SSD1306_EMULATOR::display(void) {
   TRANSACTION_START
   static const uint8_t PROGMEM dlist1[] = {
       SSD1306_PAGEADDR,
@@ -1170,7 +1175,7 @@ void Adafruit_SSD1306::display(void) {
     @return None (void).
 */
 // To scroll the whole display, run: display.startscrollright(0x00, 0x0F)
-void Adafruit_SSD1306::startscrollright(uint8_t start, uint8_t stop) {
+void Adafruit_SSD1306_EMULATOR::startscrollright(uint8_t start, uint8_t stop) {
   TRANSACTION_START
   static const uint8_t PROGMEM scrollList1a[] = {
       SSD1306_RIGHT_HORIZONTAL_SCROLL, 0X00};
@@ -1193,7 +1198,7 @@ void Adafruit_SSD1306::startscrollright(uint8_t start, uint8_t stop) {
     @return None (void).
 */
 // To scroll the whole display, run: display.startscrollleft(0x00, 0x0F)
-void Adafruit_SSD1306::startscrollleft(uint8_t start, uint8_t stop) {
+void Adafruit_SSD1306_EMULATOR::startscrollleft(uint8_t start, uint8_t stop) {
   TRANSACTION_START
   static const uint8_t PROGMEM scrollList2a[] = {SSD1306_LEFT_HORIZONTAL_SCROLL,
                                                  0X00};
@@ -1216,7 +1221,8 @@ void Adafruit_SSD1306::startscrollleft(uint8_t start, uint8_t stop) {
     @return None (void).
 */
 // display.startscrolldiagright(0x00, 0x0F)
-void Adafruit_SSD1306::startscrolldiagright(uint8_t start, uint8_t stop) {
+void Adafruit_SSD1306_EMULATOR::startscrolldiagright(uint8_t start,
+                                                     uint8_t stop) {
   TRANSACTION_START
   static const uint8_t PROGMEM scrollList3a[] = {
       SSD1306_SET_VERTICAL_SCROLL_AREA, 0X00};
@@ -1242,7 +1248,8 @@ void Adafruit_SSD1306::startscrolldiagright(uint8_t start, uint8_t stop) {
     @return None (void).
 */
 // To scroll the whole display, run: display.startscrolldiagleft(0x00, 0x0F)
-void Adafruit_SSD1306::startscrolldiagleft(uint8_t start, uint8_t stop) {
+void Adafruit_SSD1306_EMULATOR::startscrolldiagleft(uint8_t start,
+                                                    uint8_t stop) {
   TRANSACTION_START
   static const uint8_t PROGMEM scrollList4a[] = {
       SSD1306_SET_VERTICAL_SCROLL_AREA, 0X00};
@@ -1263,7 +1270,7 @@ void Adafruit_SSD1306::startscrolldiagleft(uint8_t start, uint8_t stop) {
     @brief  Cease a previously-begun scrolling action.
     @return None (void).
 */
-void Adafruit_SSD1306::stopscroll(void) {
+void Adafruit_SSD1306_EMULATOR::stopscroll(void) {
   TRANSACTION_START
   ssd1306_command1(SSD1306_DEACTIVATE_SCROLL);
   TRANSACTION_END
@@ -1284,7 +1291,7 @@ void Adafruit_SSD1306::stopscroll(void) {
             enabled, drawing SSD1306_BLACK (value 0) pixels will actually draw
    white, SSD1306_WHITE (value 1) will draw black.
 */
-void Adafruit_SSD1306::invertDisplay(bool i) {
+void Adafruit_SSD1306_EMULATOR::invertDisplay(bool i) {
   TRANSACTION_START
   ssd1306_command1(i ? SSD1306_INVERTDISPLAY : SSD1306_NORMALDISPLAY);
   TRANSACTION_END
@@ -1298,7 +1305,7 @@ void Adafruit_SSD1306::invertDisplay(bool i) {
     @note   This has an immediate effect on the display, no need to call the
             display() function -- buffer contents are not changed.
 */
-void Adafruit_SSD1306::dim(bool dim) {
+void Adafruit_SSD1306_EMULATOR::dim(bool dim) {
   // the range of contrast to too small to be really useful
   // it is useful to dim the display
   TRANSACTION_START
