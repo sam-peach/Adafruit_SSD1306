@@ -1,5 +1,5 @@
 /*!
- * @file Adafruit_SSD1306.cpp
+ * @file Adafruit_SSD1306_EMULATOR.cpp
  *
  * @mainpage Arduino library for monochrome OLEDs based on SSD1306 drivers.
  *
@@ -52,7 +52,7 @@
 
 #include <Adafruit_GFX.h>
 
-#include "Adafruit_SSD1306.h"
+#include "Adafruit_SSD1306_EMULATOR.h"
 #include "splash.h"
 
 // SOME DEFINES AND STATIC VARIABLES USED INTERNALLY -----------------------
@@ -430,11 +430,11 @@ inline void Adafruit_SSD1306::SPIwrite(uint8_t d) {
   }
 }
 
-void AAdafruit_SSD1306::delimitSlipPacket() {
+void Adafruit_SSD1306::delimitSlipPacket() {
   Serial.write(SLIP_END);
 }
 
-void AAdafruit_SSD1306::encodeAndWriteSlip(uint8_t data) {
+void Adafruit_SSD1306::encodeAndWriteSlip(uint8_t data) {
   switch (data) {
     case SLIP_END:
       Serial.write(SLIP_ESC);
